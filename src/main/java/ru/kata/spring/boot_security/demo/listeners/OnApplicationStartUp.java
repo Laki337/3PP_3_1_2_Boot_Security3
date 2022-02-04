@@ -3,10 +3,7 @@ package ru.kata.spring.boot_security.demo.listeners;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
-import ru.kata.spring.boot_security.demo.dao.UserRepository;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
@@ -17,17 +14,17 @@ import java.util.Set;
 
 @Component
 public class OnApplicationStartUp implements ApplicationRunner {
-	
+
 	private UserService userService;
 	private RoleService roleService;
-	
+
 	@Autowired
 	public OnApplicationStartUp(UserService userService, RoleService roleService) {
 		this.userService = userService;
 		this.roleService = roleService;
 	}
-	
-	
+
+
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
 		Role roleAdmin = new Role("ADMIN");

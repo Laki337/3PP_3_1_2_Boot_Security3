@@ -10,5 +10,5 @@ public interface RoleService {
 	void updateRole(Role role);
 	void deleteRole(Long id);
 	List<Role> getRoles();
-	Role findByName(String name);
+
 }
