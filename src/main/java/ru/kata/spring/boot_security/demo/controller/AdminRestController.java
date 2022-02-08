@@ -26,11 +26,10 @@ public class AdminRestController {
 	
 	@PostMapping("/users")
 	public ResponseEntity<List<User>> getAllUsers() {
-		System.err.println(userService.getAllUsers());
 		return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
 	}
 	
-	@PostMapping("/{id}")
+	@PutMapping("/{id}")
 	public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
 		return new ResponseEntity<UserDTO>(UserMapper.INSTANCE.userToUserDTO(userService.getById(id)), HttpStatus.OK);
 	}
