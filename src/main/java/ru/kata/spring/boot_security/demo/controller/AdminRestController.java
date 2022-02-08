@@ -24,7 +24,7 @@ public class AdminRestController {
 	}
 	
 	
-	@PostMapping("/users")
+	@GetMapping("/users")
 	public ResponseEntity<List<User>> getAllUsers() {
 		return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
 	}
@@ -34,7 +34,7 @@ public class AdminRestController {
 		return new ResponseEntity<UserDTO>(UserMapper.INSTANCE.userToUserDTO(userService.getById(id)), HttpStatus.OK);
 	}
 	
-	@PostMapping("/roles")
+	@GetMapping("/roles")
 	public ResponseEntity<List<Role>> getAllRoles() {
 		List<Role> roles = roleService.getRoles();
 		return new ResponseEntity<>(roles, HttpStatus.OK);
