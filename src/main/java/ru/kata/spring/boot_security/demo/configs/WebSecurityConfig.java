@@ -1,6 +1,8 @@
 package ru.kata.spring.boot_security.demo.configs;
 
 
+import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
@@ -30,21 +32,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-//		http
-//				.csrf().disable()
-//				.authorizeRequests()
-//				.antMatchers("/login").permitAll()
-//				.antMatchers("/user/**").hasAuthority("USER")
-//				.antMatchers("/admin/**").hasAuthority("ADMIN")
-//				.anyRequest().authenticated()
-//				.and()
-//				.formLogin()
-//				.successHandler(successUserHandler)
-//				.usernameParameter("j_username")
-//				.passwordParameter("j_password")
-//				.and().logout()
-//				.logoutUrl("/logout")
-//				.logoutSuccessUrl("/login");
+		http
+				.csrf().disable()
+				.authorizeRequests()
+				.antMatchers("/login").permitAll()
+				.antMatchers("/user/**").hasAuthority("USER")
+				.antMatchers("/admin/**").hasAuthority("ADMIN")
+				.anyRequest().authenticated()
+				.and()
+				.formLogin()
+				.successHandler(successUserHandler)
+				.usernameParameter("j_username")
+				.passwordParameter("j_password")
+				.and().logout()
+				.logoutUrl("/logout")
+				.logoutSuccessUrl("/login");
 	
 	}
 	
@@ -56,5 +58,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	public PasswordEncoder getPasswordEncoder() {
 		return new BCryptPasswordEncoder();
+	}
+	
+	@Bean
+	public ModelMapper modelMapper() {
+		ModelMapper mapper = new ModelMapper();
+		mapper.getConfiguration()
+				.setMatchingStrategy(MatchingStrategies.STRICT)
+				.setFieldMatchingEnabled(true)
+				.setSkipNullEnabled(true)
+				.setFieldAccessLevel(org.modelmapper.config.Configuration.AccessLevel.valueOf("PRIVATE"));
+		return mapper;
 	}
 }

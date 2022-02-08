@@ -1,17 +1,24 @@
-package ru.kata.spring.boot_security.demo.model;
+package ru.kata.spring.boot_security.demo.model.entity;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import ru.kata.spring.boot_security.demo.model.entity.Role;
 
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+@Data
 @Entity
 @Table(name = "user")
+@NamedEntityGraphs(value = {
+		@NamedEntityGraph(
+				name = "User.roles",
+				attributeNodes = @NamedAttributeNode("roles")
+		)
+})
 public class User implements UserDetails {
 	
 	@Id
@@ -36,8 +43,8 @@ public class User implements UserDetails {
 	@Column(name = "email")
 	private String email;
 	
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
-	@Fetch(FetchMode.JOIN)
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	// @Fetch(FetchMode.JOIN)
 	@JoinTable(name = "Users_roles",
 			joinColumns = @JoinColumn(name = "users_id"),
 			inverseJoinColumns = @JoinColumn(name = "roles_id"))
@@ -68,73 +75,14 @@ public class User implements UserDetails {
 		this.roles = roles;
 	}
 	
-	public User(Long id, String firstName, String lastName, int age, String username, String password, String email) {}
-	
-	
-	public long getId() {
-		return id;
-	}
-	
-	public void setId(long id) {
-		this.id = id;
-	}
-	
-	public String getFirstName() {
-		return firstName;
-	}
-	
-	public void setFirstName(String sir_name) {
-		this.firstName = sir_name;
-	}
-	
-	public String getLastName() {
-		return lastName;
-	}
-	
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-	
-	public int getAge() {
-		return age;
-	}
-	
-	public void setAge(int age) {
-		this.age = age;
-	}
-	
 	@Override
 	public String getUsername() {
 		return username;
 	}
 	
-	public void setUsername(String username) {
-		this.username = username;
-	}
-	
 	@Override
 	public String getPassword() {
 		return password;
-	}
-	
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	
-	public String getEmail() {
-		return email;
-	}
-	
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	
-	public Set<Role> getRoles() {
-		return roles;
-	}
-	
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
 	}
 	
 	@Override
